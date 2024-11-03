@@ -13,12 +13,6 @@ RUN npm install --force
 # Copy the entire application code and db directory
 COPY . .
 
-# Ensure the db directory exists
-RUN mkdir -p db
-
-# Run the database initialization script
-RUN npm run init-db
-
 # Build the Next.js application
 RUN npm run build
 

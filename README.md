@@ -2,6 +2,10 @@
 
 A min patent infringement check app
 
+## Demo
+
+https://patent-checker-irqc31d9c-giants-projects.vercel.app/
+
 ## Tech stack
 
 - Node.js 22
