@@ -1,3 +1,4 @@
+import { AnalysisResult } from "@/app/api/checkInfringement/model";
 import React from "react";
 
 type FormProps = {
@@ -6,7 +7,10 @@ type FormProps = {
   companyName: string;
   setCompanyName: (value: string) => void;
   handleCheck: () => void;
+  handleSave: () => void;
+  handleHistory: () => void;
   loading: { check: boolean; save: boolean; history: boolean };
+  result: AnalysisResult | null;
 };
 
 const Form: React.FC<FormProps> = ({
@@ -15,7 +19,10 @@ const Form: React.FC<FormProps> = ({
   companyName,
   setCompanyName,
   handleCheck,
+  handleSave,
+  handleHistory,
   loading,
+  result,
 }) => (
   <div className="form">
     <input
@@ -34,6 +41,20 @@ const Form: React.FC<FormProps> = ({
     />
     <button onClick={handleCheck} className="button" disabled={loading.check}>
       {loading.check ? "Checking..." : "Check Infringement"}
+    </button>
+    <button
+      onClick={handleSave}
+      className="button button-save"
+      disabled={loading.save || !result}
+    >
+      {loading.save ? "Saving..." : "Save"}
+    </button>
+    <button
+      onClick={handleHistory}
+      className="button button-history"
+      disabled={loading.history}
+    >
+      {loading.history ? "Loading History..." : "History"}
     </button>
   </div>
 );

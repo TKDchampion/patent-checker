@@ -5,8 +5,12 @@ import "./page.css";
 import Spinner from "./components/Spinner";
 import ResultProducts from "./components/ResultProducts";
 import Form from "./components/Form";
-import { setError } from "@/utils/status";
-import { fetchInfringementData } from "@/utils/services";
+import { setError, setSuccess } from "@/utils/status";
+import {
+  fetchInfringementData,
+  fetchInfringementHistory,
+  saveInfringementResult,
+} from "@/utils/services";
 
 const Home = () => {
   const [patentId, setPatentId] = useState<string>("");
@@ -25,6 +29,7 @@ const Home = () => {
     type: string;
     message: string;
   } | null>(null);
+  const [history, setHistory] = useState<AnalysisResult[]>([]);
 
   const handleCheck = async () => {
     if (!patentId || !companyName) {
@@ -35,6 +40,7 @@ const Home = () => {
     setLoading((prev) => ({ ...prev, check: true }));
     setStatus(null);
     setResult(null);
+    setHistory([]);
 
     try {
       const data = await fetchInfringementData(patentId, companyName);
@@ -43,6 +49,42 @@ const Home = () => {
       setStatus(setError((error as Error).message || "Something went wrong."));
     } finally {
       setLoading((prev) => ({ ...prev, check: false }));
+    }
+  };
+
+  const handleHistory = async () => {
+    setLoading((prev) => ({ ...prev, history: true }));
+    setStatus(null);
+    setResult(null);
+    setHistory([]);
+
+    try {
+      const data = await fetchInfringementHistory();
+      setHistory(data);
+    } catch (error) {
+      setStatus(setError((error as Error).message || "Something went wrong."));
+    } finally {
+      setLoading((prev) => ({ ...prev, history: false }));
+    }
+  };
+
+  const handleSave = async () => {
+    if (!result) {
+      setStatus(setError("No results to save."));
+      return;
+    }
+
+    setHistory([]);
+    setLoading((prev) => ({ ...prev, save: true }));
+    setStatus(null);
+
+    try {
+      await saveInfringementResult(result);
+      setStatus(setSuccess("Save successful!"));
+    } catch (error) {
+      setStatus(setError((error as Error).message || "Something went wrong."));
+    } finally {
+      setLoading((prev) => ({ ...prev, save: false }));
     }
   };
 
@@ -55,11 +97,21 @@ const Home = () => {
         companyName={companyName}
         setCompanyName={setCompanyName}
         handleCheck={handleCheck}
+        handleSave={handleSave}
+        handleHistory={handleHistory}
         loading={loading}
+        result={result}
       />
       {status && <p className={`status ${status.type}`}>{status.message}</p>}
       {loading.check && <Spinner />}
       {result && !loading.check && <ResultProducts result={result} />}
+      {history.length > 0 && !loading.history && (
+        <div className="history">
+          {history.map((itemResult, index) => (
+            <ResultProducts key={index} result={itemResult} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
