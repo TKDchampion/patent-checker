@@ -1,24 +1,14 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-const Database = require("better-sqlite3");
-// const path = require("path");
-const { join } = require("path");
+import { createResultsTable } from "./db";
+// const { createResultsTable } = require("./db");
 
-const dbPath = join(process.cwd(), "public", "database", "database.sqlite");
-const db = new Database(dbPath);
+async function main() {
+  try {
+    await createResultsTable();
+    console.log("Results table created successfully.");
+  } catch (error) {
+    console.error("Error creating results table:", error);
+  }
+  process.exit(0);
+}
 
-// Create the analysis_results table if it doesn't exist
-db.prepare(
-  `
-    CREATE TABLE IF NOT EXISTS results (
-      analysis_id TEXT PRIMARY KEY,
-      patent_id TEXT NOT NULL,
-      company_name TEXT NOT NULL,
-      analysis_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      top_infringing_products TEXT,
-      overall_risk_assessment TEXT
-    )
-`
-).run();
-
-console.log("Database initialized");
-db.close();
+main();
