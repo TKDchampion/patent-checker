@@ -5,6 +5,7 @@ function getJsonFile<T>(pathName: string) {
   const patentsFile = path.join(
     process.cwd(),
     "public",
+    "database",
     "json",
     `${pathName}.json`
   );
