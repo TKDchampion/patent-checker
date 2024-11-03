@@ -2,7 +2,7 @@
 const Database = require("better-sqlite3");
 const path = require("path");
 
-const dbPath = path.resolve(process.cwd(), "src", "db", "database.sqlite");
+const dbPath = path.resolve(process.cwd(), "public", "db", "database.sqlite");
 const db = new Database(dbPath);
 
 // Create the analysis_results table if it doesn't exist
