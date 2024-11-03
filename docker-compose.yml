@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  app:
+    container_name: app-container
+    image: app-img
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000' # Map localhost:3000 to container:3000
+    env_file:
+      - .env
