@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const Database = require("better-sqlite3");
-const path = require("path");
+// const path = require("path");
+const { join } = require("path");
 
-const dbPath = path.resolve(
-  process.cwd(),
-  "public",
-  "database",
-  "database.sqlite"
-);
+const dbPath = join(process.cwd(), "public", "database", "database.sqlite");
 const db = new Database(dbPath);
 
 // Create the analysis_results table if it doesn't exist
