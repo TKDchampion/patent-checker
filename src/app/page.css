@@ -1,0 +1,60 @@
+/* Container and Title */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.title {
+  text-align: center;
+  color: #3a3a3a;
+}
+
+/* Form Section */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Button */
+.button {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #4CAF50;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #45a049;
+}
+
+.button.button-save {
+  background-color: #ADD8E6;
+}
+
+.button.button-history {
+  background-color: #D3D3D3;
+}
+
+/* Overall Risk Assessment */
+.overallRisk {
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: center;
+}
