@@ -18,7 +18,7 @@ const ResultProducts: FC<Props> = ({ result }) => {
       ))}
 
       <p className="overallRisk">
-        <strong>Overall Risk Assessment:</strong>{" "}
+        <strong>Overall Risk Assessment:</strong>
         {result.overall_risk_assessment}
       </p>
     </div>

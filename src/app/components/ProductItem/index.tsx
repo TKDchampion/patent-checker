@@ -7,7 +7,7 @@ const ProductItem: FC<Props> = ({ product }) => {
     <div className="product">
       <h3>Product: {product.product_name}</h3>
       <p>
-        <strong>Infringement Likelihood:</strong>{" "}
+        <strong>Infringement Likelihood:</strong>
         {product.infringement_likelihood}%
       </p>
       <p>
@@ -17,7 +17,7 @@ const ProductItem: FC<Props> = ({ product }) => {
         <strong>Explanation:</strong> {product.explanation}
       </p>
       <p>
-        <strong>Specific Features:</strong>{" "}
+        <strong>Specific Features:</strong>
         {product.specific_features.join(", ")}
       </p>
     </div>

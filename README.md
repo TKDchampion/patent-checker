@@ -11,9 +11,10 @@ https://patent-checker-irqc31d9c-giants-projects.vercel.app/
 - Node.js 22
 - npm (comes with Node.js).
 - Nextjs 15 (FE & BE)
-- SQlite (DB)
+- Postgres (DB)
 - Jest (Unit test)
 - Docker
+- LLM (GROQ)
 
 ## Getting Started
 
@@ -80,3 +81,9 @@ docker-compose up
 - /db - database
 - /lib - Contains core logic or API modules for use across the project
 - /utils - Contains common functions for use across the project
+
+## Deploy
+
+- CICD
+- Vercel
+- GitHub
