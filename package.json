@@ -8,8 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
-    "postinstall": "npm install --force"
+    "test": "jest"
   },
   "dependencies": {
     "better-sqlite3": "^11.5.0",
