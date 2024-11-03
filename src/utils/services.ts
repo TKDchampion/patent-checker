@@ -41,3 +41,11 @@ export const saveInfringementResult = async (
   });
   if (!res.ok) throw new Error("Failed to save infringement data.");
 };
+
+export const createTable = async (): Promise<void> => {
+  const res = await fetch("/api/createTable", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!res.ok) throw new Error("Failed to createTable.");
+};

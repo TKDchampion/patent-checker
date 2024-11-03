@@ -9,7 +9,12 @@ type FormProps = {
   handleCheck: () => void;
   handleSave: () => void;
   handleHistory: () => void;
-  loading: { check: boolean; save: boolean; history: boolean };
+  loading: {
+    check: boolean;
+    save: boolean;
+    history: boolean;
+    createTable: boolean;
+  };
   result: AnalysisResult | null;
 };
 
@@ -39,20 +44,24 @@ const Form: React.FC<FormProps> = ({
       onChange={(e) => setCompanyName(e.target.value)}
       className="input"
     />
-    <button onClick={handleCheck} className="button" disabled={loading.check}>
+    <button
+      onClick={handleCheck}
+      className="button"
+      disabled={loading.check || loading.createTable}
+    >
       {loading.check ? "Checking..." : "Check Infringement"}
     </button>
     <button
       onClick={handleSave}
       className="button button-save"
-      disabled={loading.save || !result}
+      disabled={loading.save || !result || loading.check || loading.createTable}
     >
       {loading.save ? "Saving..." : "Save"}
     </button>
     <button
       onClick={handleHistory}
       className="button button-history"
-      disabled={loading.history}
+      disabled={loading.history || loading.check || loading.createTable}
     >
       {loading.history ? "Loading History..." : "History"}
     </button>

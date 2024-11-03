@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnalysisResult } from "./api/checkInfringement/model";
 import "./page.css";
 import Spinner from "./components/Spinner";
@@ -7,6 +7,7 @@ import ResultProducts from "./components/ResultProducts";
 import Form from "./components/Form";
 import { setError, setSuccess } from "@/utils/status";
 import {
+  createTable,
   fetchInfringementData,
   fetchInfringementHistory,
   saveInfringementResult,
@@ -20,16 +21,35 @@ const Home = () => {
     check: boolean;
     save: boolean;
     history: boolean;
+    createTable: boolean;
   }>({
     check: false,
     save: false,
     history: false,
+    createTable: true,
   });
   const [status, setStatus] = useState<{
     type: string;
     message: string;
   } | null>(null);
   const [history, setHistory] = useState<AnalysisResult[]>([]);
+
+  useEffect(() => {
+    if (loading.createTable) {
+      initTable();
+    }
+  }, [loading.createTable]);
+
+  const initTable = async () => {
+    setLoading((prev) => ({ ...prev, createTable: true }));
+    try {
+      await createTable();
+    } catch (error) {
+      setStatus(setError((error as Error).message || "Something went wrong."));
+    } finally {
+      setLoading((prev) => ({ ...prev, createTable: false }));
+    }
+  };
 
   const handleCheck = async () => {
     if (!patentId || !companyName) {
