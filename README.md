@@ -18,8 +18,8 @@ Follow these steps to set up and start the project.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
+git clone https://github.com/TKDchampion/patent-checker.git
+cd patent-checker
 ```
 
 ### 2. Install dependencies

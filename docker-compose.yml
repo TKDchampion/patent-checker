@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  app:
-    container_name: app-container
-    image: app-img
+  patent-checker:
+    container_name: patent-checker-container
+    image: patent-checker-img
     build:
       context: .
       dockerfile: Dockerfile
