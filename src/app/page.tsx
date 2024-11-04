@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useEffect, useState } from "react";
 import "./page.css";
@@ -13,6 +14,7 @@ import {
 } from "@/utils/services";
 import useLoadingStore from "@/store/useLoading";
 import { AnalysisResult } from "@/types/patentModel";
+import asyncHandler from "@/utils/asyncHandler";
 
 const Home = () => {
   const [patentId, setPatentId] = useState<string>("");
@@ -32,21 +34,13 @@ const Home = () => {
 
   useEffect(() => {
     if (isCreateTable) {
-      initTable();
+      asyncHandler(createTable, "isCreateTable", {
+        setLoading,
+        setStatus,
+        resetLoading,
+      });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCreateTable]);
-
-  const initTable = async () => {
-    setLoading("isCreateTable", true);
-    try {
-      await createTable();
-    } catch (error) {
-      setStatus(setError((error as Error).message || "Something went wrong."));
-    } finally {
-      setLoading("isCreateTable", false);
-    }
-  };
 
   const handleCheck = async () => {
     if (!patentId || !companyName) {
@@ -54,31 +48,21 @@ const Home = () => {
       return;
     }
 
-    setLoading("isCheck", true);
-    resetLoading();
-
-    try {
-      const data = await fetchInfringementData(patentId, companyName);
-      setResult(data);
-    } catch (error) {
-      setStatus(setError((error as Error).message || "Something went wrong."));
-    } finally {
-      setLoading("isCheck", false);
-    }
+    const data = await asyncHandler(
+      () => fetchInfringementData(patentId, companyName),
+      "isCheck",
+      { setLoading, setStatus, resetLoading }
+    );
+    if (data) setResult(data);
   };
 
   const handleHistory = async () => {
-    setLoading("isHistory", true);
-    resetLoading();
-
-    try {
-      const data = await fetchInfringementHistory();
-      setHistory(data);
-    } catch (error) {
-      setStatus(setError((error as Error).message || "Something went wrong."));
-    } finally {
-      setLoading("isHistory", false);
-    }
+    const data = await asyncHandler(fetchInfringementHistory, "isHistory", {
+      setLoading,
+      setStatus,
+      resetLoading,
+    });
+    if (data) setHistory(data);
   };
 
   const handleSave = async () => {
@@ -87,17 +71,16 @@ const Home = () => {
       return;
     }
 
-    setLoading("isSave", true);
-    resetLoading();
-
-    try {
-      await saveInfringementResult(result);
-      setStatus(setSuccess("Save successful!"));
-    } catch (error) {
-      setStatus(setError((error as Error).message || "Something went wrong."));
-    } finally {
-      setLoading("isSave", false);
-    }
+    const success = await asyncHandler(
+      () => saveInfringementResult(result),
+      "isSave",
+      {
+        setLoading,
+        setStatus,
+        resetLoading,
+      }
+    );
+    if (success) setStatus(setSuccess("Save successful!"));
   };
 
   return (
