@@ -12,42 +12,36 @@ import {
   saveInfringementResult,
 } from "@/utils/services";
 import { AnalysisResult } from "@/types/patentModel";
+import useLoadingStore from "@/store/useLoading";
 
 const Home = () => {
   const [patentId, setPatentId] = useState<string>("");
   const [companyName, setCompanyName] = useState<string>("");
   const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [loading, setLoading] = useState<{
-    check: boolean;
-    save: boolean;
-    history: boolean;
-    createTable: boolean;
-  }>({
-    check: false,
-    save: false,
-    history: false,
-    createTable: true,
-  });
   const [status, setStatus] = useState<{
     type: string;
     message: string;
   } | null>(null);
   const [history, setHistory] = useState<AnalysisResult[]>([]);
 
+  const { isCheck, isSave, isHistory, isCreateTable, setLoading } =
+    useLoadingStore();
+
   useEffect(() => {
-    if (loading.createTable) {
+    if (isCreateTable) {
       initTable();
     }
-  }, [loading.createTable]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCreateTable]);
 
   const initTable = async () => {
-    setLoading((prev) => ({ ...prev, createTable: true }));
+    setLoading("isCreateTable", true);
     try {
       await createTable();
     } catch (error) {
       setStatus(setError((error as Error).message || "Something went wrong."));
     } finally {
-      setLoading((prev) => ({ ...prev, createTable: false }));
+      setLoading("isCreateTable", false);
     }
   };
 
@@ -57,7 +51,7 @@ const Home = () => {
       return;
     }
 
-    setLoading((prev) => ({ ...prev, check: true }));
+    setLoading("isCheck", true);
     setStatus(null);
     setResult(null);
     setHistory([]);
@@ -68,12 +62,12 @@ const Home = () => {
     } catch (error) {
       setStatus(setError((error as Error).message || "Something went wrong."));
     } finally {
-      setLoading((prev) => ({ ...prev, check: false }));
+      setLoading("isCheck", false);
     }
   };
 
   const handleHistory = async () => {
-    setLoading((prev) => ({ ...prev, history: true }));
+    setLoading("isHistory", true);
     setStatus(null);
     setResult(null);
     setHistory([]);
@@ -84,7 +78,7 @@ const Home = () => {
     } catch (error) {
       setStatus(setError((error as Error).message || "Something went wrong."));
     } finally {
-      setLoading((prev) => ({ ...prev, history: false }));
+      setLoading("isHistory", false);
     }
   };
 
@@ -95,7 +89,7 @@ const Home = () => {
     }
 
     setHistory([]);
-    setLoading((prev) => ({ ...prev, save: true }));
+    setLoading("isSave", true);
     setStatus(null);
 
     try {
@@ -104,7 +98,7 @@ const Home = () => {
     } catch (error) {
       setStatus(setError((error as Error).message || "Something went wrong."));
     } finally {
-      setLoading((prev) => ({ ...prev, save: false }));
+      setLoading("isSave", false);
     }
   };
 
@@ -119,13 +113,18 @@ const Home = () => {
         handleCheck={handleCheck}
         handleSave={handleSave}
         handleHistory={handleHistory}
-        loading={loading}
+        loading={{
+          check: isCheck,
+          save: isSave,
+          history: isHistory,
+          createTable: isCreateTable,
+        }}
         result={result}
       />
       {status && <p className={`status ${status.type}`}>{status.message}</p>}
-      {loading.check && <Spinner />}
-      {result && !loading.check && <ResultProducts result={result} />}
-      {history.length > 0 && !loading.history && (
+      {isCheck && <Spinner />}
+      {result && !isCheck && <ResultProducts result={result} />}
+      {history.length > 0 && !isHistory && (
         <div className="history">
           {history.map((itemResult, index) => (
             <ResultProducts key={index} result={itemResult} />

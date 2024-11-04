@@ -3,15 +3,12 @@ import { CompanyProducts, Patent } from "@/types/patentModel";
 import { validateParams } from "./helper/validateParams";
 import { findPatent } from "./helper/findPatent";
 import { findCompany } from "./helper/findCompany";
-// import getJsonFile from "@/utils/getJsonFile";
 import { errorResponse } from "@/utils/errorResponse";
 import { getInfringementAnalysisByGroq } from "./lib/getInfringementAnalysisByGroq";
 import { formatResponse } from "./helper/formatResponse";
-import companyProducts from "@/app/json/company_products.json";
-import patents from "@/app/json/patents.json";
+import companyProducts from "@/json/company_products.json";
+import patents from "@/json/patents.json";
 
-// const patentsData = getJsonFile<Patent[]>("patents");
-// const companiesData = getJsonFile<CompanyProducts>("company_products");
 const patentsData: Patent[] = patents;
 const companiesData: CompanyProducts = companyProducts;
 export async function GET(req: Request) {
