@@ -4,7 +4,7 @@ A min patent infringement check app
 
 ## Demo
 
-https://patent-checker-irqc31d9c-giants-projects.vercel.app/
+https://patent-checker.vercel.app/
 
 ## Tech stack
 
@@ -82,12 +82,10 @@ docker-compose up
 - /pages - Contains all the Next.js pages
 - /components - Reusable UI components
 - /public - Static assets like images, fonts, etc.
-- /styles - Global and component-specific styles
 - /api - Backend API routes if using Next.js API routes
 - /api/[pathName]/helper - Reusable utility functions that perform common tasks
 - /api/[pathName]/lib - Contains core logic or API modules for the api.
 - /[pathName].test.ts - Unit test in Jest
-- /db - database
 - /lib - Contains core logic or API modules for use across the project
 - /utils - Contains common functions for use across the project
 
