@@ -1,22 +1,6 @@
-import { AnalysisResult } from "@/types/patentModel";
 import React from "react";
-
-type FormProps = {
-  patentId: string;
-  setPatentId: (value: string) => void;
-  companyName: string;
-  setCompanyName: (value: string) => void;
-  handleCheck: () => void;
-  handleSave: () => void;
-  handleHistory: () => void;
-  loading: {
-    check: boolean;
-    save: boolean;
-    history: boolean;
-    createTable: boolean;
-  };
-  result: AnalysisResult | null;
-};
+import useLoadingStore from "@/store/useLoading";
+import { FormProps } from "./model";
 
 const Form: React.FC<FormProps> = ({
   patentId,
@@ -26,46 +10,49 @@ const Form: React.FC<FormProps> = ({
   handleCheck,
   handleSave,
   handleHistory,
-  loading,
-  result,
-}) => (
-  <div className="form">
-    <input
-      type="text"
-      placeholder="Patent ID"
-      value={patentId}
-      onChange={(e) => setPatentId(e.target.value)}
-      className="input"
-    />
-    <input
-      type="text"
-      placeholder="Company Name"
-      value={companyName}
-      onChange={(e) => setCompanyName(e.target.value)}
-      className="input"
-    />
-    <button
-      onClick={handleCheck}
-      className="button"
-      disabled={loading.check || loading.createTable}
-    >
-      {loading.check ? "Checking..." : "Check Infringement"}
-    </button>
-    <button
-      onClick={handleSave}
-      className="button button-save"
-      disabled={loading.save || !result || loading.check || loading.createTable}
-    >
-      {loading.save ? "Saving..." : "Save"}
-    </button>
-    <button
-      onClick={handleHistory}
-      className="button button-history"
-      disabled={loading.history || loading.check || loading.createTable}
-    >
-      {loading.history ? "Loading History..." : "History"}
-    </button>
-  </div>
-);
+}) => {
+  const { isCheck, isSave, isHistory, isCreateTable, result } =
+    useLoadingStore();
+
+  return (
+    <div className="form">
+      <input
+        type="text"
+        placeholder="Patent ID"
+        value={patentId}
+        onChange={(e) => setPatentId(e.target.value)}
+        className="input"
+      />
+      <input
+        type="text"
+        placeholder="Company Name"
+        value={companyName}
+        onChange={(e) => setCompanyName(e.target.value)}
+        className="input"
+      />
+      <button
+        onClick={handleCheck}
+        className="button"
+        disabled={isCheck || isCreateTable}
+      >
+        {isCheck ? "Checking..." : "Check Infringement"}
+      </button>
+      <button
+        onClick={handleSave}
+        className="button button-save"
+        disabled={isSave || !result || isCheck || isCreateTable}
+      >
+        {isSave ? "Saving..." : "Save"}
+      </button>
+      <button
+        onClick={handleHistory}
+        className="button button-history"
+        disabled={isHistory || isCheck || isCreateTable}
+      >
+        {isHistory ? "Loading History..." : "History"}
+      </button>
+    </div>
+  );
+};
 
 export default Form;

@@ -11,21 +11,24 @@ import {
   fetchInfringementHistory,
   saveInfringementResult,
 } from "@/utils/services";
-import { AnalysisResult } from "@/types/patentModel";
 import useLoadingStore from "@/store/useLoading";
+import { AnalysisResult } from "@/types/patentModel";
 
 const Home = () => {
   const [patentId, setPatentId] = useState<string>("");
   const [companyName, setCompanyName] = useState<string>("");
-  const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [status, setStatus] = useState<{
-    type: string;
-    message: string;
-  } | null>(null);
   const [history, setHistory] = useState<AnalysisResult[]>([]);
-
-  const { isCheck, isSave, isHistory, isCreateTable, setLoading } =
-    useLoadingStore();
+  const {
+    isCheck,
+    isHistory,
+    isCreateTable,
+    setLoading,
+    setStatus,
+    status,
+    result,
+    setResult,
+    resetLoading,
+  } = useLoadingStore();
 
   useEffect(() => {
     if (isCreateTable) {
@@ -52,9 +55,7 @@ const Home = () => {
     }
 
     setLoading("isCheck", true);
-    setStatus(null);
-    setResult(null);
-    setHistory([]);
+    resetLoading();
 
     try {
       const data = await fetchInfringementData(patentId, companyName);
@@ -68,9 +69,7 @@ const Home = () => {
 
   const handleHistory = async () => {
     setLoading("isHistory", true);
-    setStatus(null);
-    setResult(null);
-    setHistory([]);
+    resetLoading();
 
     try {
       const data = await fetchInfringementHistory();
@@ -88,9 +87,8 @@ const Home = () => {
       return;
     }
 
-    setHistory([]);
     setLoading("isSave", true);
-    setStatus(null);
+    resetLoading();
 
     try {
       await saveInfringementResult(result);
@@ -107,29 +105,27 @@ const Home = () => {
       <h1 className="title">Patent Infringement Checker</h1>
       <Form
         patentId={patentId}
-        setPatentId={setPatentId}
         companyName={companyName}
+        setPatentId={setPatentId}
         setCompanyName={setCompanyName}
         handleCheck={handleCheck}
         handleSave={handleSave}
         handleHistory={handleHistory}
-        loading={{
-          check: isCheck,
-          save: isSave,
-          history: isHistory,
-          createTable: isCreateTable,
-        }}
-        result={result}
       />
       {status && <p className={`status ${status.type}`}>{status.message}</p>}
       {isCheck && <Spinner />}
       {result && !isCheck && <ResultProducts result={result} />}
       {history.length > 0 && !isHistory && (
-        <div className="history">
-          {history.map((itemResult, index) => (
-            <ResultProducts key={index} result={itemResult} />
-          ))}
-        </div>
+        <>
+          <div>
+            <h2>-- History List --</h2>
+          </div>
+          <div className="history">
+            {history.map((itemResult, index) => (
+              <ResultProducts key={index} result={itemResult} />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
