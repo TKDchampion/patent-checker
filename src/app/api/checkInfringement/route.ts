@@ -1,13 +1,12 @@
-// app/api/checkInfringement/route.ts
 import { NextResponse } from "next/server";
 import { CompanyProducts, Patent } from "./model";
-import { getInfringementAnalysis } from "./lib/getInfringementAnalysis";
 import { validateParams } from "./helper/validateParams";
 import { findPatent } from "./helper/findPatent";
 import { findCompany } from "./helper/findCompany";
-import { formatResponse } from "./helper/formatResponse";
 import getJsonFile from "@/lib/getJsonFile";
 import { errorResponse } from "@/lib/errorResponse";
+import { getInfringementAnalysisByGroq } from "./lib/getInfringementAnalysisByGroq";
+import { formatResponse } from "./helper/formatResponse";
 
 const patentsData = getJsonFile<Patent[]>("patents");
 const companiesData = getJsonFile<CompanyProducts>("company_products");
@@ -28,7 +27,7 @@ export async function GET(req: Request) {
   }
 
   try {
-    const parsedProducts = await getInfringementAnalysis(patent, company);
+    const parsedProducts = await getInfringementAnalysisByGroq(patent, company);
     const formattedResponse = formatResponse(
       patentId!,
       companyName!,
