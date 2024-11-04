@@ -1,5 +1,5 @@
 import { findCompany } from "./findCompany";
-import { CompanyProducts } from "@/types/patentModal";
+import { CompanyProducts } from "@/types/patentModel";
 
 describe("findCompany", () => {
   // Mock data for CompanyProducts with detailed product information

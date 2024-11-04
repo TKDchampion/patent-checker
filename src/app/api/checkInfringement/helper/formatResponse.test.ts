@@ -1,5 +1,5 @@
 import { formatResponse } from "./formatResponse";
-import { AnalysisResult, ResultObject } from "@/types/patentModal";
+import { AnalysisResult, ResultObject } from "@/types/patentModel";
 
 describe("formatResponse", () => {
   it("should return a properly formatted AnalysisResult object", () => {

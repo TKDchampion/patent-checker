@@ -1,4 +1,4 @@
-import { AnalysisResult, InfringingProduct } from "@/types/patentModal";
+import { AnalysisResult, InfringingProduct } from "@/types/patentModel";
 
 export const fetchInfringementData = async (
   patentId: string,

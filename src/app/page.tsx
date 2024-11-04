@@ -11,7 +11,7 @@ import {
   fetchInfringementHistory,
   saveInfringementResult,
 } from "@/utils/services";
-import { AnalysisResult } from "@/types/patentModal";
+import { AnalysisResult } from "@/types/patentModel";
 
 const Home = () => {
   const [patentId, setPatentId] = useState<string>("");

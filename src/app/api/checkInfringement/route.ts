@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { CompanyProducts, Patent } from "@/types/patentModal";
+import { CompanyProducts, Patent } from "@/types/patentModel";
 import { validateParams } from "./helper/validateParams";
 import { findPatent } from "./helper/findPatent";
 import { findCompany } from "./helper/findCompany";

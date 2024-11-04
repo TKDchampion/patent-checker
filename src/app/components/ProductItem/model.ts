@@ -1,4 +1,4 @@
-import { InfringingProduct } from "@/types/patentModal";
+import { InfringingProduct } from "@/types/patentModel";
 
 export interface Props {
   product: InfringingProduct;

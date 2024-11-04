@@ -4,7 +4,7 @@ import {
   InfringingProduct,
   Patent,
   ResultObject,
-} from "@/types/patentModal";
+} from "@/types/patentModel";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 

@@ -1,4 +1,4 @@
-import { AnalysisResult } from "@/types/patentModal";
+import { AnalysisResult } from "@/types/patentModel";
 import React from "react";
 
 type FormProps = {
