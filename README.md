@@ -86,8 +86,8 @@ docker-compose up
 - /api/[pathName]/helper - Reusable utility functions that perform common tasks
 - /api/[pathName]/lib - Contains core logic or API modules for the api.
 - /[pathName].test.ts - Unit test in Jest
-- /lib - Contains core logic or API modules for use across the project
-- /utils - Contains common functions for use across the project
+- /utils - Contains common logic or API modules for use across the project
+- /types - Contains common model types
 
 ## Deploy
 

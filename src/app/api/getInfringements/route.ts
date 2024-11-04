@@ -1,4 +1,4 @@
-import { errorResponse } from "@/lib/errorResponse";
+import { errorResponse } from "@/utils/errorResponse";
 import { sql } from "@vercel/postgres";
 import { NextResponse } from "next/server";
 

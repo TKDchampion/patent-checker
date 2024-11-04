@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { AnalysisResult } from "@/types/patentModel";
-import { errorResponse } from "@/lib/errorResponse";
+import { errorResponse } from "@/utils/errorResponse";
 import { sql } from "@vercel/postgres";
 
 export async function POST(req: Request) {
