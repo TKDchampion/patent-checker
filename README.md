@@ -15,6 +15,7 @@ https://patent-checker.vercel.app/
 - Jest (Unit test)
 - Docker
 - LLM (GROQ)
+- zustand (store pattern)
 
 ## Getting Started
 
@@ -88,6 +89,7 @@ docker-compose up
 - /[pathName].test.ts - Unit test in Jest
 - /utils - Contains common logic or API modules for use across the project
 - /types - Contains common model types
+- /stores - control states
 
 ## Deploy
 
