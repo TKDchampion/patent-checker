@@ -1,4 +1,4 @@
-import { Patent } from "../model";
+import { Patent } from "@/types/patentModal";
 
 export function findPatent(
   patents: Patent[],

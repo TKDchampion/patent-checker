@@ -1,5 +1,10 @@
 import Groq from "groq-sdk";
-import { Company, InfringingProduct, Patent, ResultObject } from "../model";
+import {
+  Company,
+  InfringingProduct,
+  Patent,
+  ResultObject,
+} from "@/types/patentModal";
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 

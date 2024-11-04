@@ -1,4 +1,4 @@
-import { AnalysisResult } from "@/app/api/checkInfringement/model";
+import { AnalysisResult } from "@/types/patentModal";
 
 export interface Props {
   result: AnalysisResult;

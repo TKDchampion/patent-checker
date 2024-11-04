@@ -1,4 +1,4 @@
-import { CompanyProducts } from "../model";
+import { CompanyProducts } from "@/types/patentModal";
 
 export function findCompany(
   companiesData: CompanyProducts,

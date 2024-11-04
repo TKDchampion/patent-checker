@@ -1,4 +1,4 @@
-import { AnalysisResult, ResultObject } from "../model";
+import { AnalysisResult, ResultObject } from "@/types/patentModal";
 
 export function formatResponse(
   patentId: string,

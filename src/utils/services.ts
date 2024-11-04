@@ -1,7 +1,4 @@
-import {
-  AnalysisResult,
-  InfringingProduct,
-} from "@/app/api/checkInfringement/model";
+import { AnalysisResult, InfringingProduct } from "@/types/patentModal";
 
 export const fetchInfringementData = async (
   patentId: string,

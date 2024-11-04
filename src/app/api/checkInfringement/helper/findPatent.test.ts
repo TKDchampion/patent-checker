@@ -1,5 +1,5 @@
 import { findPatent } from "./findPatent";
-import { Patent } from "../model";
+import { Patent } from "@/types/patentModal";
 
 describe("findPatent", () => {
   // Mock data for patents

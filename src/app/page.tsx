@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import { AnalysisResult } from "./api/checkInfringement/model";
 import "./page.css";
 import Spinner from "./components/Spinner";
 import ResultProducts from "./components/ResultProducts";
@@ -12,6 +11,7 @@ import {
   fetchInfringementHistory,
   saveInfringementResult,
 } from "@/utils/services";
+import { AnalysisResult } from "@/types/patentModal";
 
 const Home = () => {
   const [patentId, setPatentId] = useState<string>("");

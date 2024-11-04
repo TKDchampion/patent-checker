@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { AnalysisResult } from "../checkInfringement/model";
+import { AnalysisResult } from "@/types/patentModal";
 import { errorResponse } from "@/lib/errorResponse";
 import { sql } from "@vercel/postgres";
 
