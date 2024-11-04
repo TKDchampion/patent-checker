@@ -37,8 +37,8 @@ const Home = () => {
       asyncHandler(createTable, "isCreateTable", {
         setLoading,
         setStatus,
-        resetLoading,
       });
+      resetLoading();
     }
   }, [isCreateTable]);
 
@@ -51,8 +51,10 @@ const Home = () => {
     const data = await asyncHandler(
       () => fetchInfringementData(patentId, companyName),
       "isCheck",
-      { setLoading, setStatus, resetLoading }
+      { setLoading, setStatus }
     );
+    resetLoading();
+    setHistory([]);
     if (data) setResult(data);
   };
 
@@ -60,8 +62,8 @@ const Home = () => {
     const data = await asyncHandler(fetchInfringementHistory, "isHistory", {
       setLoading,
       setStatus,
-      resetLoading,
     });
+    resetLoading();
     if (data) setHistory(data);
   };
 
@@ -70,17 +72,12 @@ const Home = () => {
       setStatus(setError("No results to save."));
       return;
     }
-
-    const success = await asyncHandler(
-      () => saveInfringementResult(result),
-      "isSave",
-      {
-        setLoading,
-        setStatus,
-        resetLoading,
-      }
-    );
-    if (success) setStatus(setSuccess("Save successful!"));
+    await asyncHandler(() => saveInfringementResult(result), "isSave", {
+      setLoading,
+      setStatus,
+    });
+    setHistory([]);
+    setStatus(setSuccess("Save successful!"));
   };
 
   return (
@@ -95,7 +92,7 @@ const Home = () => {
         handleSave={handleSave}
         handleHistory={handleHistory}
       />
-      {status && <p className={`status ${status.type}`}>{status.message}</p>}
+      {status && <p className="status">{status.message}</p>}
       {isCheck && <Spinner />}
       {result && !isCheck && <ResultProducts result={result} />}
       {history.length > 0 && !isHistory && (

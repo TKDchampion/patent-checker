@@ -9,17 +9,14 @@ interface AsyncHandlerOptions {
     value: boolean
   ) => void;
   setStatus: (status: { type: string; message: string } | null) => void;
-  resetLoading: () => void;
 }
 
 const asyncHandler = async (
   asyncFunc: AsyncFunction,
   loadingKey: "isCheck" | "isSave" | "isHistory" | "isCreateTable",
-  { setLoading, setStatus, resetLoading }: AsyncHandlerOptions
+  { setLoading, setStatus }: AsyncHandlerOptions
 ) => {
   setLoading(loadingKey, true);
-  setStatus(null);
-  resetLoading();
 
   try {
     return await asyncFunc();
