@@ -1,20 +1,26 @@
 import { AnalysisResult, InfringingProduct } from "@/types/patentModel";
+import { ApiConfig } from "./base-services/model";
+import BaseServices from "./base-services";
 
-export const fetchInfringementData = async (
+const baseServices = new BaseServices();
+
+export const fetchInfringementData = (
   patentId: string,
   companyName: string
 ): Promise<AnalysisResult> => {
-  const res = await fetch(
-    `/api/checkInfringement?patentId=${patentId}&companyName=${companyName}`
-  );
-  if (!res.ok) throw new Error("Failed to fetch infringement data.");
-  return res.json();
+  const config: ApiConfig = {
+    url: `/api/checkInfringement?patentId=${patentId}&companyName=${companyName}`,
+  };
+
+  return baseServices.get(config);
 };
 
 export const fetchInfringementHistory = async (): Promise<AnalysisResult[]> => {
-  const res = await fetch("/api/getInfringements");
-  if (!res.ok) throw new Error("Failed to fetch infringement history.");
-  const data = await res.json();
+  const config: ApiConfig = {
+    url: "/api/getInfringements",
+  };
+
+  const data = (await baseServices.get(config)) as { rows: AnalysisResult[] };
 
   const transformType = (
     value: string | InfringingProduct[]
@@ -30,19 +36,19 @@ export const fetchInfringementHistory = async (): Promise<AnalysisResult[]> => {
 
 export const saveInfringementResult = async (
   result: AnalysisResult
-): Promise<void> => {
-  const res = await fetch("/api/postInfringement", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(result),
-  });
-  if (!res.ok) throw new Error("Failed to save infringement data.");
+): Promise<AnalysisResult> => {
+  const config: ApiConfig = {
+    url: "/api/postInfringement",
+    body: result,
+  };
+
+  return await baseServices.post(config);
 };
 
-export const createTable = async (): Promise<void> => {
-  const res = await fetch("/api/createTable", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!res.ok) throw new Error("Failed to createTable.");
+export const createTable = async (): Promise<AnalysisResult> => {
+  const config: ApiConfig = {
+    url: "/api/createTable",
+  };
+
+  return await baseServices.post(config);
 };

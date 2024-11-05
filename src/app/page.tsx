@@ -14,7 +14,6 @@ import {
 } from "@/utils/services";
 import useLoadingStore from "@/store/useLoading";
 import { AnalysisResult } from "@/types/patentModel";
-import asyncHandler from "@/utils/asyncHandler";
 
 const Home = () => {
   const [patentId, setPatentId] = useState<string>("");
@@ -34,37 +33,59 @@ const Home = () => {
 
   useEffect(() => {
     if (isCreateTable) {
-      asyncHandler(createTable, "isCreateTable", {
-        setLoading,
-        setStatus,
-      });
-      resetLoading();
+      initTable();
     }
   }, [isCreateTable]);
 
+  const initTable = async () => {
+    setLoading("isCreateTable", true);
+
+    try {
+      await createTable();
+      resetLoading();
+    } catch (error) {
+      setStatus(setError((error as Error).message || "Failed to createTable."));
+    } finally {
+      setLoading("isCreateTable", false);
+    }
+  };
+
   const handleCheck = async () => {
+    setLoading("isCheck", true);
+
     if (!patentId || !companyName) {
       setStatus(setError("Both Patent ID and Company Name are required."));
       return;
     }
 
-    const data = await asyncHandler(
-      () => fetchInfringementData(patentId, companyName),
-      "isCheck",
-      { setLoading, setStatus }
-    );
-    resetLoading();
-    setHistory([]);
-    if (data) setResult(data);
+    try {
+      const data = await fetchInfringementData(patentId, companyName);
+      resetLoading();
+      setHistory([]);
+      setResult(data);
+    } catch (error) {
+      setStatus(
+        setError((error as Error).message || "Failed to fetchInfringementData.")
+      );
+    } finally {
+      setLoading("isCheck", false);
+    }
   };
 
   const handleHistory = async () => {
-    const data = await asyncHandler(fetchInfringementHistory, "isHistory", {
-      setLoading,
-      setStatus,
-    });
-    resetLoading();
-    if (data) setHistory(data);
+    setLoading("isHistory", true);
+
+    try {
+      const data = await fetchInfringementHistory();
+      resetLoading();
+      setHistory(data);
+    } catch (error) {
+      setStatus(
+        setError((error as Error).message || "Failed to fetchInfringementData.")
+      );
+    } finally {
+      setLoading("isHistory", false);
+    }
   };
 
   const handleSave = async () => {
@@ -72,12 +93,22 @@ const Home = () => {
       setStatus(setError("No results to save."));
       return;
     }
-    await asyncHandler(() => saveInfringementResult(result), "isSave", {
-      setLoading,
-      setStatus,
-    });
-    setHistory([]);
-    setStatus(setSuccess("Save successful!"));
+
+    setLoading("isSave", true);
+
+    try {
+      await saveInfringementResult(result);
+      setHistory([]);
+      setStatus(setSuccess("Save successful!"));
+    } catch (error) {
+      setStatus(
+        setError(
+          (error as Error).message || "Failed to save infringement data."
+        )
+      );
+    } finally {
+      setLoading("isSave", false);
+    }
   };
 
   return (
